@@ -37,32 +37,6 @@ If you use our code/model/data, please cite our paper:
 <th valign="bottom"><sup><sub>download<br/>links</sub></sup></th>
 <!-- TABLE BODY -->
 <tr>
-<td align="left"><sup><sub>X-152-32x8d-FPN-IN5k-baseline</sub></sup></td>
-<td align="left"><sup><sub>Mask</sub></sup></td>
-<td align="left"><sup><sub>s1x</sub></sup></td>
-<td align="right"><sup><sub>1</sub></sup></td>
-<td align="right"><sup><sub>48.1</sub></sup></td>
-<td align="right"><sup><sub>68.3</sub></sup></td>
-<td align="right"><sup><sub>52.9</sub></sup></td>
-<td align="right"><sup><sub>41.5</sub></sup></td>
-<td align="right"><sup><sub>65.1</sub></sup></td>
-<td align="right"><sup><sub>44.7</sub></sup></td>
-<td align="left"><sup><sub><a href="https://s3-us-west-2.amazonaws.com/detectron/37129812/12_2017_baselines/e2e_mask_rcnn_X-152-32x8d-FPN-IN5k_1.44x.yaml.09_35_36.8pzTQKYK/output/train/coco_2014_train%3Acoco_2014_valminusminival/generalized_rcnn/model_final.pkl">model</a>&nbsp;|&nbsp;<a href="https://s3-us-west-2.amazonaws.com/detectron/37129812/12_2017_baselines/e2e_mask_rcnn_X-152-32x8d-FPN-IN5k_1.44x.yaml.09_35_36.8pzTQKYK/output/test/coco_2014_minival/generalized_rcnn/bbox_coco_2014_minival_results.json">boxes</a>&nbsp;|&nbsp;<a href="https://s3-us-west-2.amazonaws.com/detectron/37129812/12_2017_baselines/e2e_mask_rcnn_X-152-32x8d-FPN-IN5k_1.44x.yaml.09_35_36.8pzTQKYK/output/test/coco_2014_minival/generalized_rcnn/segmentations_coco_2014_minival_results.json">masks</a></sub></sup></td>
-</tr>
-<tr>
-<td align="left"><sup><sub>[above without test-time aug.]</sub></sup></td>
-<td align="right"><sup><sub></sub></sup></td>
-<td align="right"><sup><sub></sub></sup></td>
-<td align="right"><sup><sub></sub></sup></td>
-<td align="right"><sup><sub>45.2</sub></sup></td>
-<td align="right"><sup><sub>66.9</sub></sup></td>
-<td align="right"><sup><sub>49.7</sub></sup></td>
-<td align="right"><sup><sub>39.7</sub></sup></td>
-<td align="right"><sup><sub>63.5</sub></sup></td>
-<td align="right"><sup><sub>42.4</sub></sup></td>
-<td align="right"><sup><sub></sub></sup></td>
-</tr>
-<tr>
 <td align="left"><sup><sub>X-152-32x8d-FPN-IN5k-cascade</sub></sup></td>
 <td align="left"><sup><sub>Mask</sub></sup></td>
 <td align="left"><sup><sub>s1x</sub></sup></td>
