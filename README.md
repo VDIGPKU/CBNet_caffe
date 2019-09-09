@@ -2,15 +2,15 @@
 
 by Yudong Liu
 
-This repository is modified on the base of [Detectron](https://github.com/facebookresearch/Detectron) @ [e8942c8](https://github.com/facebookresearch/Detectron/tree/e8942c882abf6e28fe68a626ec55028c9bdfe1cf). and [Cascade R-CNN](https://github.com/zhaoweicai/Detectron-Cascade-RCNN)
+This repository is modified on the base of [Detectron](https://github.com/facebookresearch/Detectron) @ [e8942c8](https://github.com/facebookresearch/Detectron/tree/e8942c882abf6e28fe68a626ec55028c9bdfe1cf) and [Cascade R-CNN](https://github.com/zhaoweicai/Detectron-Cascade-RCNN)
 
 ## Introduction
 
-This repository re-implements Cascade R-CNN on the base of [Detectron](https://github.com/facebookresearch/Detectron). Very consistent gains are available for all tested models, regardless of baseline strength.
+This repository is modified on the base of [Cascade R-CNN](https://github.com/zhaoweicai/Detectron-Cascade-RCNN)
+ on the base of [Detectron](https://github.com/facebookresearch/Detectron). 
 
-Please follow [Detectron](https://github.com/facebookresearch/Detectron) on how to install and use Detectron-Cascade-RCNN.
+Please follow [Detectron](https://github.com/facebookresearch/Detectron) on how to install the environment.
 
-It is also recommended to use our original implementation, [cascade-rcnn](https://github.com/zhaoweicai/cascade-rcnn) based on Caffe, and the third-party implementation, [mmdetection](https://github.com/open-mmlab/mmdetection) based on PyTorch and [tensorpack](https://github.com/tensorpack/tensorpack/tree/master/examples/FasterRCNN) based on TensorFlow.
 
 ## Citation
 
