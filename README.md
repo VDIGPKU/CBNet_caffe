@@ -2,12 +2,11 @@
 
 by Yudong Liu
 
-This repository is modified on the base of [Detectron](https://github.com/facebookresearch/Detectron) @ [e8942c8](https://github.com/facebookresearch/Detectron/tree/e8942c882abf6e28fe68a626ec55028c9bdfe1cf) and [Cascade R-CNN](https://github.com/zhaoweicai/Detectron-Cascade-RCNN)
+
 
 ## Introduction
 
-This repository is modified on the base of [Cascade R-CNN](https://github.com/zhaoweicai/Detectron-Cascade-RCNN)
- on the base of [Detectron](https://github.com/facebookresearch/Detectron). 
+This repository is modified on [Cascade R-CNN](https://github.com/zhaoweicai/Detectron-Cascade-RCNN), which is re-implemented by by Zhaowei Cai and Nuno Vasconcelos on the base of [Detectron](https://github.com/facebookresearch/Detectron). 
 
 Please follow [Detectron](https://github.com/facebookresearch/Detectron) on how to install the environment.
 
