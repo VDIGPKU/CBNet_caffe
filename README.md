@@ -39,9 +39,9 @@ If you use our code/model/data, please cite our paper:
   
 <tr>
 <td align="left"><sup><sub>[X-152-32x8d-FPN-IN5k-cascade]</sub></sup></td>
-<td align="right"><sup><sub></sub></sup></td>
-<td align="right"><sup><sub></sub></sup></td>
-<td align="right"><sup><sub></sub></sup></td>
+<td align="right"><sup><sub>Mask</sub></sup></td>
+<td align="right"><sup><sub>s1x</sub></sup></td>
+<td align="right"><sup><sub>1</sub></sup></td>
 <td align="right"><sup><sub>48.3</sub></sup></td>
 <td align="right"><sup><sub>67.0</sub></sup></td>
 <td align="right"><sup><sub>52.8</sub></sup></td>
