@@ -39,8 +39,8 @@ If you use our code/model/data, please cite our paper:
   
 <tr>
 <td align="left"><sup><sub>[X-152-32x8d-FPN-IN5k-cascade]</sub></sup></td>
-<td align="right"><sup><sub>Mask</sub></sup></td>
-<td align="right"><sup><sub>s1x</sub></sup></td>
+<td align="left"><sup><sub>Mask</sub></sup></td>
+<td align="left"><sup><sub>s1x</sub></sup></td>
 <td align="right"><sup><sub>1</sub></sup></td>
 <td align="right"><sup><sub>48.3</sub></sup></td>
 <td align="right"><sup><sub>67.0</sub></sup></td>
@@ -62,7 +62,7 @@ If you use our code/model/data, please cite our paper:
 <td align="right"><sup><sub>42.0</sub></sup></td>
 <td align="right"><sup><sub>64.6</sub></sup></td>
 <td align="right"><sup><sub>45.6</sub></sup></td>
-<td align="left"><sup><sub><a href="http://www.svcl.ucsd.edu/projects/cascade-rcnn/X152-32x8d-FPN-cascade-rcnn-mask-aug.pkl">model</a>&nbsp;|&nbsp;<a href="http://www.svcl.ucsd.edu/projects/cascade-rcnn/results/bbox_coco_2014_minival_results_X152-32x8d-FPN-cascade-rcnn-mask-aug.json">boxes</a>&nbsp;|&nbsp;<a href="http://www.svcl.ucsd.edu/projects/cascade-rcnn/results/segmentations_coco_2014_minival_results_X152-32x8d-FPN-cascade-rcnn-mask-aug.json">masks</a></sub></sup></td>
+<td align="left"><sup><sub></sub></sup></td>
 </tr>
 
 <!-- END BELLS TABLE -->
