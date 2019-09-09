@@ -60,7 +60,8 @@ def add_fpn_ResNet50_conv5_P2only_body(model):
 
 def add_fpn_ResNet101_conv5_body(model):
     return add_fpn_onto_conv_body(
-        model, ResNet.add_ResNet101_conv5_body, fpn_level_info_ResNet101_conv5
+        model, ResNet.add_ResNet101_conv5_body, ResNet.add_ResNet101_conv5_body_old,
+        fpn_level_info_ResNet101_conv5, fpn_level_info_ResNet101_conv5_old
     )
 
 
@@ -72,12 +73,17 @@ def add_fpn_ResNet101_conv5_P2only_body(model):
         P2only=True
     )
 
+def add_fpn_ResNet152_conv5_body(model):
+    return add_fpn_onto_conv_body(
+        model, ResNet.add_ResNet152_conv5_body, ResNet.add_ResNet152_conv5_body_old, fpn_level_info_ResNet152_conv5,fpn_level_info_ResNet152_conv5_old
+    )
 
+'''
 def add_fpn_ResNet152_conv5_body(model):
     return add_fpn_onto_conv_body(
         model, ResNet.add_ResNet152_conv5_body, fpn_level_info_ResNet152_conv5
     )
-
+'''
 
 def add_fpn_ResNet152_conv5_P2only_body(model):
     return add_fpn_onto_conv_body(
@@ -93,7 +99,8 @@ def add_fpn_ResNet152_conv5_P2only_body(model):
 # ---------------------------------------------------------------------------- #
 
 def add_fpn_onto_conv_body(
-    model, conv_body_func, fpn_level_info_func, P2only=False
+    model, conv_body_func_now, conv_body_func_old, fpn_level_info_func,
+    fpn_level_info_func_old, P2only=False
 ):
     """Add the specified conv body to the model and then add FPN levels to it.
     """
@@ -101,7 +108,8 @@ def add_fpn_onto_conv_body(
     # similarly for dims_conv: [2048, 1024, 512, 256]
     # similarly for spatial_scales_fpn: [1/32, 1/16, 1/8, 1/4]
 
-    conv_body_func(model)
+    conv_body_func_old(model)
+    conv_body_func_now(model)
     blobs_fpn, dim_fpn, spatial_scales_fpn = add_fpn(
         model, fpn_level_info_func()
     )
@@ -278,6 +286,38 @@ def add_topdown_lateral_module(
             bias_init=const_fill(0.0)
         )
     else:
+        '''
+        tmp1 = model.Conv(#########reduce channel /2
+            fpn_lataral_old,
+            fpn_bottom + '_mid1',
+            dim_in = dim_lateral * 2,
+            dim_out = dim_lateral,
+            kernel=1,
+            pad=0,
+            stride=1,
+            weight_init=(
+                const_fill(0.0)
+                if cfg.FPN.ZERO_INIT_LATERAL else ('XavierFill', {})
+            ),
+            bias_init=const_fill(0.0)
+        )
+        tmp2 = model.net.UpsampleNearest(tmp1, fpn_bottom + '_mid2', scale=2)##upsample
+        tmp3 = model.net.Sum([tmp2, fpn_lateral], fpn_bottom + '_mid3')##### add
+        lat = model.Conv(
+            tmp3,
+            fpn_bottom + '_lateral',
+            dim_in=dim_lateral,
+            dim_out=dim_top,
+            kernel=1,
+            pad=0,
+            stride=1,
+            weight_init=(
+                const_fill(0.0)
+                if cfg.FPN.ZERO_INIT_LATERAL else ('XavierFill', {})
+            ),
+            bias_init=const_fill(0.0)
+        )
+        '''
         lat = model.Conv(
             fpn_lateral,
             fpn_bottom + '_lateral',
@@ -292,6 +332,7 @@ def add_topdown_lateral_module(
             ),
             bias_init=const_fill(0.0)
         )
+
     # Top-down 2x upsampling
     td = model.net.UpsampleNearest(fpn_top, fpn_bottom + '_topdown', scale=2)
     # Sum lateral and top-down
@@ -559,6 +600,13 @@ def fpn_level_info_ResNet101_conv5():
         spatial_scales=(1. / 32., 1. / 16., 1. / 8., 1. / 4.)
     )
 
+def fpn_level_info_ResNet101_conv5_old():
+    return FpnLevelInfo(
+        blobs=('old_res5_2_sum', 'old_res4_22_sum', 'old_res3_3_sum', 'old_res2_2_sum'),
+        dims=(2048, 1024, 512, 256),
+        spatial_scales=(1. / 32., 1. / 16., 1. / 8., 1. / 4.)
+    )
+
 
 def fpn_level_info_ResNet152_conv5():
     return FpnLevelInfo(
@@ -566,3 +614,11 @@ def fpn_level_info_ResNet152_conv5():
         dims=(2048, 1024, 512, 256),
         spatial_scales=(1. / 32., 1. / 16., 1. / 8., 1. / 4.)
     )
+
+def fpn_level_info_ResNet152_conv5_old():
+    return FpnLevelInfo(
+        blobs=('old_res5_2_sum', 'old_res4_35_sum', 'old_res3_7_sum', 'old_res2_2_sum'),
+        dims=(2048, 1024, 512, 256),
+        spatial_scales=(1. / 32., 1. / 16., 1. / 8., 1. / 4.)
+    )
+

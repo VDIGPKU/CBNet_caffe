@@ -22,10 +22,10 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
-
+from caffe2.python import workspace
 from detectron.core.config import cfg
 from detectron.utils.net import get_group_gn
-
+from detectron.utils.c2 import const_fill
 
 # ---------------------------------------------------------------------------- #
 # Bits for specific architectures (ResNet50, ResNet101, ...)
@@ -47,11 +47,14 @@ def add_ResNet101_conv4_body(model):
 def add_ResNet101_conv5_body(model):
     return add_ResNet_convX_body(model, (3, 4, 23, 3))
 
+def add_ResNet101_conv5_body_old(model):
+    return add_ResNet_convX_body_old(model, (3, 4, 23, 3))
 
 def add_ResNet152_conv5_body(model):
     return add_ResNet_convX_body(model, (3, 8, 36, 3))
 
-
+def add_ResNet152_conv5_body_old(model):
+    return add_ResNet_convX_body_old(model, (3, 8, 36, 3))
 # ---------------------------------------------------------------------------- #
 # Generic ResNet components
 # ---------------------------------------------------------------------------- #
@@ -92,6 +95,7 @@ def add_ResNet_convX_body(model, block_counts):
     """Add a ResNet body from input data up through the res5 (aka conv5) stage.
     The final res5/conv5 stage may be optionally excluded (hence convX, where
     X = 4 or 5)."""
+    xavier_fill = ('XavierFill', {})
     freeze_at = cfg.TRAIN.FREEZE_AT
     assert freeze_at in [0, 2, 3, 4, 5]
 
@@ -100,23 +104,101 @@ def add_ResNet_convX_body(model, block_counts):
 
     dim_bottleneck = cfg.RESNETS.NUM_GROUPS * cfg.RESNETS.WIDTH_PER_GROUP
     (n1, n2, n3) = block_counts[:3]
-    s, dim_in = add_stage(model, 'res2', p, n1, dim_in, 256, dim_bottleneck, 1)
+
+
+    tmp1_res2 = model.Conv(
+            'old_res2_2_sum',
+            'tmp1_res2',
+            dim_in=256,
+            dim_out=64,
+            kernel=1,
+            pad=0,
+            stride=1,
+            weight_init=xavier_fill,
+            bias_init=const_fill(0.0)
+        )
+    
+    #tmp2plus_res2 = model.net.UpsampleNearest(tmp1_res2, 'tmp2plus_res2', scale=2)
+    #tmp2_res2 = model.net.UpsampleNearest(tmp2plus_res2, 'tmp2_res2', scale=2)
+    print('p is {}'.format(p.Size))
+    #print('tmp is {}'.format(tmp2_res2.Size))
+    tmp3_res2 = model.net.Sum([p, tmp1_res2], 'tmp3_res2')
+
+
+    s, dim_in = add_stage(model, 'res2', tmp3_res2, n1, dim_in, 256, dim_bottleneck, 1)
     if freeze_at == 2:
         model.StopGradient(s, s)
+
+
+    tmp1_res3 = model.Conv(
+            'old_res3_7_sum',
+            'tmp1_res3',
+            dim_in=512,
+            dim_out=256,
+            kernel=1,
+            pad=0,
+            stride=1,
+            weight_init=xavier_fill,
+            bias_init=const_fill(0.0)
+        )
+
+    tmp2_res3 = model.net.UpsampleNearest(tmp1_res3, 'tmp2_res3', scale=2)
+    tmp3_res3 = model.net.Sum([s, tmp2_res3], 'tmp3_res3')
+
+
+
     s, dim_in = add_stage(
-        model, 'res3', s, n2, dim_in, 512, dim_bottleneck * 2, 1
+        model, 'res3', tmp3_res3, n2, dim_in, 512, dim_bottleneck * 2, 1
     )
     if freeze_at == 3:
         model.StopGradient(s, s)
+
+
+    tmp1_res4 = model.Conv(
+            'old_res4_35_sum',
+            'tmp1_res4',
+            dim_in=1024,
+            dim_out=512,
+            kernel=1,
+            pad=0,
+            stride=1,
+            weight_init=xavier_fill,
+            bias_init=const_fill(0.0)
+        )
+
+    tmp2_res4 = model.net.UpsampleNearest(tmp1_res4, 'tmp2_res4', scale=2)
+    tmp3_res4 = model.net.Sum([s, tmp2_res4], 'tmp3_res4')
+
+
+
     s, dim_in = add_stage(
-        model, 'res4', s, n3, dim_in, 1024, dim_bottleneck * 4, 1
+        model, 'res4', tmp3_res4, n3, dim_in, 1024, dim_bottleneck * 4, 1
     )
     if freeze_at == 4:
         model.StopGradient(s, s)
     if len(block_counts) == 4:
         n4 = block_counts[3]
+        
+
+        tmp1_res5 = model.Conv(
+            'old_res5_2_sum',
+            'tmp1_res5',
+            dim_in=2048,
+            dim_out=1024,
+            kernel=1,
+            pad=0,
+            stride=1,
+            weight_init=xavier_fill,
+            bias_init=const_fill(0.0)
+        )
+
+        tmp2_res5 = model.net.UpsampleNearest(tmp1_res5, 'tmp2_res5', scale=2)
+        tmp3_res5 = model.net.Sum([s, tmp2_res5], 'tmp3_res5')
+
+
+
         s, dim_in = add_stage(
-            model, 'res5', s, n4, dim_in, 2048, dim_bottleneck * 8,
+            model, 'res5', tmp3_res5, n4, dim_in, 2048, dim_bottleneck * 8,
             cfg.RESNETS.RES5_DILATION
         )
         if freeze_at == 5:
@@ -125,6 +207,42 @@ def add_ResNet_convX_body(model, block_counts):
     else:
         return s, dim_in, 1. / 16.
 
+def add_ResNet_convX_body_old(model, block_counts):
+    """Add a ResNet body from input data up through the res5 (aka conv5) stage.
+    The final res5/conv5 stage may be optionally excluded (hence convX, where
+    X = 4 or 5)."""
+    freeze_at = cfg.TRAIN.FREEZE_AT
+    assert freeze_at in [0, 2, 3, 4, 5]
+
+    # add the stem (by default, conv1 and pool1 with bn; can support gn)
+    p, dim_in = basic_bn_stem_old(model, 'data')
+
+    dim_bottleneck = cfg.RESNETS.NUM_GROUPS * cfg.RESNETS.WIDTH_PER_GROUP
+    (n1, n2, n3) = block_counts[:3]
+    s, dim_in = add_stage(model, 'old_res2', p, n1, dim_in, 256, dim_bottleneck, 1)
+    if freeze_at == 2:
+        model.StopGradient(s, s)
+    s, dim_in = add_stage(
+        model, 'old_res3', s, n2, dim_in, 512, dim_bottleneck * 2, 1
+    )
+    if freeze_at == 3:
+        model.StopGradient(s, s)
+    s, dim_in = add_stage(
+        model, 'old_res4', s, n3, dim_in, 1024, dim_bottleneck * 4, 1
+    )
+    if freeze_at == 4:
+        model.StopGradient(s, s)
+    if len(block_counts) == 4:
+        n4 = block_counts[3]
+        s, dim_in = add_stage(
+            model, 'old_res5', s, n4, dim_in, 2048, dim_bottleneck * 8,
+            cfg.RESNETS.RES5_DILATION
+        )
+        if freeze_at == 5:
+            model.StopGradient(s, s)
+        return s, dim_in, 1. / 32. * cfg.RESNETS.RES5_DILATION
+    else:
+        return s, dim_in, 1. / 16.
 
 def add_ResNet_roi_conv5_head(model, blob_in, dim_in, spatial_scale):
     """Adds an RoI feature transformation (e.g., RoI pooling) followed by a
@@ -253,6 +371,18 @@ def basic_bn_stem(model, data, **kwargs):
     p = model.AffineChannel(p, 'res_conv1_bn', dim=dim, inplace=True)
     p = model.Relu(p, p)
     p = model.MaxPool(p, 'pool1', kernel=3, pad=1, stride=2)
+    return p, dim
+
+def basic_bn_stem_old(model, data, **kwargs):
+    """Add a basic ResNet stem. For a pre-trained network that used BN.
+    An AffineChannel op replaces BN during fine-tuning.
+    """
+
+    dim = 64
+    p = model.Conv(data, 'old_conv1', 3, dim, 7, pad=3, stride=2, no_bias=1)
+    p = model.AffineChannel(p, 'old_res_conv1_bn', dim=dim, inplace=True)
+    p = model.Relu(p, p)
+    p = model.MaxPool(p, 'old_pool1', kernel=3, pad=1, stride=2)
     return p, dim
 
 

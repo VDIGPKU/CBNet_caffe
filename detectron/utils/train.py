@@ -172,6 +172,7 @@ def setup_model_for_training(model, weights_file, output_dir):
     if weights_file:
         # Override random weight initialization with weights from a saved model
         nu.initialize_gpu_from_weights_file(model, weights_file, gpu_id=0)
+        nu.initialize_gpu_from_old_weights_file(model, weights_file, gpu_id=0)
     # Even if we're randomly initializing we still need to synchronize
     # parameters across GPUs
     nu.broadcast_parameters(model)

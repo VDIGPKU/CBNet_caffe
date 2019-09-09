@@ -132,6 +132,90 @@ def initialize_gpu_from_weights_file(model, weights_file, gpu_id=0):
                 logger.info(
                     '{:s} preserved in workspace (unused)'.format(src_name))
 
+def initialize_gpu_from_old_weights_file(model, weights_file, gpu_id=0):
+    """Initialize a network with ops on a specific GPU.
+
+    If you use CUDA_VISIBLE_DEVICES to target specific GPUs, Caffe2 will
+    automatically map logical GPU ids (starting from 0) to the physical GPUs
+    specified in CUDA_VISIBLE_DEVICES.
+    """
+    logger.info('Loading weights from: {}'.format(weights_file))
+    ws_blobs = workspace.Blobs()
+    with open(weights_file, 'r') as f:
+        src_blobs = pickle.load(f)
+    #if 'cfg' in src_blobs:
+    #    saved_cfg = load_cfg(src_blobs['cfg'])
+    #    configure_bbox_reg_weights(model, saved_cfg)
+    if 'blobs' in src_blobs:
+        # Backwards compat--dictionary used to be only blobs, now they are
+        # stored under the 'blobs' key
+        src_blobs = src_blobs['blobs']
+    # Initialize weights on GPU gpu_id only
+    unscoped_param_names = OrderedDict()  # Print these out in model order
+    for blob in model.params:
+        unscoped_param_names[c2_utils.UnscopeName(str(blob))] = True
+    with c2_utils.NamedCudaScope(gpu_id):
+        for unscoped_param_name in unscoped_param_names.keys():
+            if (unscoped_param_name.find(']_') >= 0 and
+                    unscoped_param_name[4:] not in src_blobs):
+                # Special case for sharing initialization from a pretrained
+                # model:
+                # If a blob named '_[xyz]_foo' is in model.params and not in
+                # the initialization blob dictionary, then load source blob
+                # 'foo' into destination blob '_[xyz]_foo'
+                src_name = unscoped_param_name[
+                    unscoped_param_name.find(']_') + 2:]
+                src_name = src_name[4:]
+            else:
+                src_name = unscoped_param_name[4:]
+            print('src_name is {}'.format(src_name))
+            if src_name not in src_blobs:
+                logger.info('{:s} not found'.format(src_name))
+                continue
+            dst_name = core.ScopedName(unscoped_param_name)
+            has_momentum = src_name + '_momentum' in src_blobs
+            has_momentum_str = ' [+ momentum]' if has_momentum else ''
+            logger.info(
+                '{:s}{:} loaded from weights file into {:s}: {}'.format(
+                    src_name, has_momentum_str, dst_name, src_blobs[src_name]
+                    .shape
+                )
+            )
+            if dst_name in ws_blobs:
+                # If the blob is already in the workspace, make sure that it
+                # matches the shape of the loaded blob
+                ws_blob = workspace.FetchBlob(dst_name)
+                assert ws_blob.shape == src_blobs[src_name].shape, \
+                    ('Workspace blob {} with shape {} does not match '
+                     'weights file shape {}').format(
+                        src_name,
+                        ws_blob.shape,
+                        src_blobs[src_name].shape)
+            workspace.FeedBlob(
+                dst_name,
+                src_blobs[src_name].astype(np.float32, copy=False))
+            if has_momentum:
+                workspace.FeedBlob(
+                    dst_name + '_momentum',
+                    src_blobs[src_name + '_momentum'].astype(
+                        np.float32, copy=False))
+
+    # We preserve blobs that are in the weights file but not used by the current
+    # model. We load these into CPU memory under the '__preserve__/' namescope.
+    # These blobs will be stored when saving a model to a weights file. This
+    # feature allows for alternating optimization of Faster R-CNN in which blobs
+    # unused by one step can still be preserved forward and used to initialize
+    # another step.
+    for src_name in src_blobs.keys():
+        if (src_name not in unscoped_param_names and
+                not src_name.endswith('_momentum') and
+                src_blobs[src_name] is not None):
+            with c2_utils.CpuScope():
+                workspace.FeedBlob(
+                    '__preserve__/{:s}'.format(src_name), src_blobs[src_name])
+                logger.info(
+                    '{:s} preserved in workspace (unused)'.format(src_name))
+
 
 def save_model_to_weights_file(weights_file, model):
     """Stash model weights in a dictionary and pickle them to a file. We map
