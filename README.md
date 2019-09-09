@@ -1,8 +1,8 @@
-# Cascade R-CNN: Delving into High Quality Object Detection
+# CBNet: A Novel Composite Backbone Network Architecture for Object Detection
 
-by Zhaowei Cai and Nuno Vasconcelos
+by Yudong Liu
 
-This repository is written by Zhaowei Cai at UC San Diego, on the base of [Detectron](https://github.com/facebookresearch/Detectron) @ [e8942c8](https://github.com/facebookresearch/Detectron/tree/e8942c882abf6e28fe68a626ec55028c9bdfe1cf).
+This repository is modified on the base of [Detectron](https://github.com/facebookresearch/Detectron) @ [e8942c8](https://github.com/facebookresearch/Detectron/tree/e8942c882abf6e28fe68a626ec55028c9bdfe1cf).
 
 ## Introduction
 
@@ -16,26 +16,7 @@ It is also recommended to use our original implementation, [cascade-rcnn](https:
 
 If you use our code/model/data, please cite our paper:
 
-```
-@inproceedings{cai18cascadercnn,
-  author = {Zhaowei Cai and Nuno Vasconcelos},
-  Title = {Cascade R-CNN: Delving into High Quality Object Detection},
-  booktitle = {CVPR},
-  Year  = {2018}
-}
-```
 
-and Detectron:
-
-```
-@misc{Detectron2018,
-  author =       {Ross Girshick and Ilija Radosavovic and Georgia Gkioxari and
-                  Piotr Doll\'{a}r and Kaiming He},
-  title =        {Detectron},
-  howpublished = {\url{https://github.com/facebookresearch/detectron}},
-  year =         {2018}
-}
-```
 
 ## Benchmarking
 
@@ -341,127 +322,6 @@ and Detectron:
 <!-- END BELLS TABLE -->
 </tbody></table>
 
-### Faster & Mask R-CNN with GN
 
-<table><tbody>
-<!-- START E2E FASTER AND MASK TABLE -->
-<!-- TABLE HEADER -->
-<!-- Info: we use wrap text in <sup><sub></sub><sup> to make is small -->
-<th valign="bottom"><sup><sub>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;backbone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</sub></sup></th>
-<th valign="bottom"><sup><sub>type</sub></sup></th>
-<th valign="bottom"><sup><sub>lr<br/>schd</sub></sup></th>
-<th valign="bottom"><sup><sub>im/<br/>gpu</sub></sup></th>
-<th valign="bottom"><sup><sub>box<br/>AP</sub></sup></th>
-<th valign="bottom"><sup><sub>box<br/>AP50</sub></sup></th>
-<th valign="bottom"><sup><sub>box<br/>AP75</sub></sup></th>
-<th valign="bottom"><sup><sub>mask<br/>AP</sub></sup></th>
-<th valign="bottom"><sup><sub>mask<br/>AP50</sub></sup></th>
-<th valign="bottom"><sup><sub>mask<br/>AP75</sub></sup></th>
-<th valign="bottom"><sup><sub>download<br/>links</sub></sup></th>
-<!-- TABLE BODY -->
-<tr>
-<td align="left"><sup><sub>R-50-FPN-GN-baseline</sub></sup></td>
-<td align="left"><sup><sub>Faster</sub></sup></td>
-<td align="left"><sup><sub>1x</sub></sup></td>
-<td align="right"><sup><sub>2</sub></sup></td>
-<td align="right"><sup><sub>38.4</sub></sup></td>
-<td align="right"><sup><sub>59.9</sub></sup></td>
-<td align="right"><sup><sub>41.7</sub></sup></td>
-<td align="right"><sup><sub>-</sub></sup></td>
-<td align="right"><sup><sub>-</sub></sup></td>
-<td align="right"><sup><sub>-</sub></sup></td>
-<td align="left"><sup><sub>model</a>&nbsp;|&nbsp;boxes</a></sub></sup></td>
-</tr>
-<tr>
-<td align="left"><sup><sub>R-50-FPN-GN-cascade</sub></sup></td>
-<td align="left"><sup><sub>Faster</sub></sup></td>
-<td align="left"><sup><sub>1x</sub></sup></td>
-<td align="right"><sup><sub>2</sub></sup></td>
-<td align="right"><sup><sub>42.2</sub></sup></td>
-<td align="right"><sup><sub>60.6</sub></sup></td>
-<td align="right"><sup><sub>45.8</sub></sup></td>
-<td align="right"><sup><sub>-</sub></sup></td>
-<td align="right"><sup><sub>-</sub></sup></td>
-<td align="right"><sup><sub>-</sub></sup></td>
-<td align="left"><sup><sub>model</a>&nbsp;|&nbsp;<a href="http://www.svcl.ucsd.edu/projects/cascade-rcnn/results/bbox_coco_2014_minival_results_R50-FPN-GN-cascade-rcnn.json">boxes</a></sub></sup></td>
-</tr>
-<tr>
-<td align="left"><sup><sub>R-101-FPN-GN-baseline</sub></sup></td>
-<td align="left"><sup><sub>Faster</sub></sup></td>
-<td align="left"><sup><sub>1x</sub></sup></td>
-<td align="right"><sup><sub>2</sub></sup></td>
-<td align="right"><sup><sub>39.9</sub></sup></td>
-<td align="right"><sup><sub>61.3</sub></sup></td>
-<td align="right"><sup><sub>43.3</sub></sup></td>
-<td align="right"><sup><sub>-</sub></sup></td>
-<td align="right"><sup><sub>-</sub></sup></td>
-<td align="right"><sup><sub>-</sub></sup></td>
-<td align="left"><sup><sub>model</a>&nbsp;|&nbsp;boxes</a></sub></sup></td>
-</tr>
-<tr>
-<td align="left"><sup><sub>R-101-FPN-GN-cascade</sub></sup></td>
-<td align="left"><sup><sub>Faster</sub></sup></td>
-<td align="left"><sup><sub>1x</sub></sup></td>
-<td align="right"><sup><sub>1</sub></sup></td>
-<td align="right"><sup><sub>43.8</sub></sup></td>
-<td align="right"><sup><sub>62.2</sub></sup></td>
-<td align="right"><sup><sub>47.6</sub></sup></td>
-<td align="right"><sup><sub>-</sub></sup></td>
-<td align="right"><sup><sub>-</sub></sup></td>
-<td align="right"><sup><sub>-</sub></sup></td>
-<td align="left"><sup><sub>model</a>&nbsp;|&nbsp;<a href="http://www.svcl.ucsd.edu/projects/cascade-rcnn/results/bbox_coco_2014_minival_results_R101-FPN-GN-cascade-rcnn.json">boxes</a></sub></sup></td>
-</tr>
-<tr>
-<td align="left"><sup><sub>R-50-FPN-GN-baseline</sub></sup></td>
-<td align="left"><sup><sub>Mask</sub></sup></td>
-<td align="left"><sup><sub>1x</sub></sup></td>
-<td align="right"><sup><sub>2</sub></sup></td>
-<td align="right"><sup><sub>39.2</sub></sup></td>
-<td align="right"><sup><sub>60.5</sub></sup></td>
-<td align="right"><sup><sub>42.9</sub></sup></td>
-<td align="right"><sup><sub>34.9</sub></sup></td>
-<td align="right"><sup><sub>57.1</sub></sup></td>
-<td align="right"><sup><sub>36.9</sub></sup></td>
-<td align="left"><sup><sub>model</a>&nbsp;|&nbsp;boxes</a></sub></sup></td>
-</tr>
-<tr>
-<td align="left"><sup><sub>R-50-FPN-GN-cascade</sub></sup></td>
-<td align="left"><sup><sub>Mask</sub></sup></td>
-<td align="left"><sup><sub>1x</sub></sup></td>
-<td align="right"><sup><sub>1</sub></sup></td>
-<td align="right"><sup><sub>42.9</sub></sup></td>
-<td align="right"><sup><sub>60.7</sub></sup></td>
-<td align="right"><sup><sub>46.6</sub></sup></td>
-<td align="right"><sup><sub>36.6</sub></sup></td>
-<td align="right"><sup><sub>57.7</sub></sup></td>
-<td align="right"><sup><sub>39.2</sub></sup></td>
-<td align="left"><sup><sub>model</a>&nbsp;|&nbsp;<a href="http://www.svcl.ucsd.edu/projects/cascade-rcnn/results/bbox_coco_2014_minival_results_R50-FPN-GN-cascade-rcnn-mask.json">boxes</a>&nbsp;|&nbsp;<a href="http://www.svcl.ucsd.edu/projects/cascade-rcnn/results/segmentations_coco_2014_minival_results_R50-FPN-GN-cascade-rcnn-mask.json">masks</a></sub></sup></td>
-</tr>
-<tr>
-<td align="left"><sup><sub>R-101-FPN-GN-baseline</sub></sup></td>
-<td align="left"><sup><sub>Mask</sub></sup></td>
-<td align="left"><sup><sub>1x</sub></sup></td>
-<td align="right"><sup><sub>2</sub></sup></td>
-<td align="right"><sup><sub>41.1</sub></sup></td>
-<td align="right"><sup><sub>62.1</sub></sup></td>
-<td align="right"><sup><sub>45.1</sub></sup></td>
-<td align="right"><sup><sub>36.3</sub></sup></td>
-<td align="right"><sup><sub>58.9</sub></sup></td>
-<td align="right"><sup><sub>38.5</sub></sup></td>
-<td align="left"><sup><sub>model</a>&nbsp;|&nbsp;boxes</a>&nbsp;|&nbsp;masks</a></sub></sup></td>
-</tr>
-<tr>
-<td align="left"><sup><sub>R-101-FPN-GN-cascade</sub></sup></td>
-<td align="left"><sup><sub>Mask</sub></sup></td>
-<td align="left"><sup><sub>1x</sub></sup></td>
-<td align="right"><sup><sub>1</sub></sup></td>
-<td align="right"><sup><sub>44.8</sub></sup></td>
-<td align="right"><sup><sub>62.8</sub></sup></td>
-<td align="right"><sup><sub>48.8</sub></sup></td>
-<td align="right"><sup><sub>38.0</sub></sup></td>
-<td align="right"><sup><sub>59.8</sub></sup></td>
-<td align="right"><sup><sub>40.8</sub></sup></td>
-<td align="left"><sup><sub>model</a>&nbsp;|&nbsp;<a href="http://www.svcl.ucsd.edu/projects/cascade-rcnn/results/bbox_coco_2014_minival_results_R101-FPN-GN-cascade-rcnn-mask.json">boxes</a>&nbsp;|&nbsp;<a href="http://www.svcl.ucsd.edu/projects/cascade-rcnn/results/segmentations_coco_2014_minival_results_R101-FPN-GN-cascade-rcnn-mask.json">masks</a></sub></sup></td>
-</tr>
 <!-- END E2E FASTER AND MASK TABLE -->
 </tbody></table>
