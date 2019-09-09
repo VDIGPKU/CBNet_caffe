@@ -48,7 +48,6 @@ If you use our code/model/data, please cite our paper:
 <td align="right"><sup><sub>41.0</sub></sup></td>
 <td align="right"><sup><sub>64.1</sub></sup></td>
 <td align="right"><sup><sub>44.2</sub></sup></td>
-<!--td align="right"><sup><sub></sub></sup></td>
 </tr> 
 
 <tr>
@@ -62,7 +61,6 @@ If you use our code/model/data, please cite our paper:
 <td align="right"><sup><sub>42.0</sub></sup></td>
 <td align="right"><sup><sub>64.6</sub></sup></td>
 <td align="right"><sup><sub>45.6</sub></sup></td>
-<!--td align="left"><sup><sub></sub></sup></td>
 </tr>
 
 <!-- END BELLS TABLE -->
