@@ -14,7 +14,7 @@ Please follow [Detectron](https://github.com/facebookresearch/Detectron) on how 
 ## Citation
 
 If you use our code/model/data, please cite our paper:
-
+https://arxiv.org/abs/1909.03625
 
 
 
