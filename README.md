@@ -18,7 +18,7 @@ https://arxiv.org/abs/1909.03625
 
 
 
-### Cascade Mask R-CNN with Bells & Whistles
+### Cascade Mask R-CNN without Bells & Whistles
 
 <table><tbody>
 <!-- START BELLS TABLE -->
