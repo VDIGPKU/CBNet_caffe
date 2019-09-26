@@ -16,6 +16,7 @@ Please follow [Detectron](https://github.com/facebookresearch/Detectron) on how 
 If you use our code/model/data, please cite our paper:
 https://arxiv.org/abs/1909.03625
 
+Our code is free for research, but needs authorization for commerce.
 
 
 ### Cascade Mask R-CNN without Bells & Whistles
