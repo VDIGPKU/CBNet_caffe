@@ -14,7 +14,7 @@ Please follow [Detectron](https://github.com/facebookresearch/Detectron) on how 
 ## Citation
 
 If you use our code/model/data, please cite our paper:
-https://arxiv.org/abs/1909.03625
+https://aaai.org/Papers/AAAI/2020GB/AAAI-LiuY.1833.pdf
 
 Our code is free for research, but needs authorization for commerce.
 
