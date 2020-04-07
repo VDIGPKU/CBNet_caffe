@@ -6,17 +6,18 @@ by Yudong Liu
 
 ## Introduction
 
+**Update:We release our code based on mmdetection,and you can refer to https://github.com/VDIGPKU/CBNet**
+
 This repository is modified on [Cascade R-CNN](https://github.com/zhaoweicai/Detectron-Cascade-RCNN), which is re-implemented by by Zhaowei Cai and Nuno Vasconcelos on the base of [Detectron](https://github.com/facebookresearch/Detectron). 
 
 Please follow [Detectron](https://github.com/facebookresearch/Detectron) on how to install the environment.
-
+**The project is only free for academic research purposes. For commerce permission, please contact wyt@pku.edu.cn.**
 
 ## Citation
 
 If you use our code/model/data, please cite our paper:
 https://aaai.org/Papers/AAAI/2020GB/AAAI-LiuY.1833.pdf
 
-Our code is free for research, but needs authorization for commerce.
 
 
 ### Cascade Mask R-CNN without Bells & Whistles
