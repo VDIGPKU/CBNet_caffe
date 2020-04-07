@@ -2,11 +2,12 @@
 
 by Yudong Liu
 
-
+## Update
+**We release our code based on mmdetection, and you can refer to https://github.com/VDIGPKU/CBNet**
 
 ## Introduction
 
-**Update:We release our code based on mmdetection,and you can refer to https://github.com/VDIGPKU/CBNet**
+
 
 This repository is modified on [Cascade R-CNN](https://github.com/zhaoweicai/Detectron-Cascade-RCNN), which is re-implemented by by Zhaowei Cai and Nuno Vasconcelos on the base of [Detectron](https://github.com/facebookresearch/Detectron). 
 
