@@ -22,7 +22,7 @@
 
 """Python implementation of the PASCAL VOC devkit's AP evaluation code."""
 
-import cPickle
+import pickle as cPickle
 import logging
 import numpy as np
 import os

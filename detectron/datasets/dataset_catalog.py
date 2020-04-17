@@ -24,8 +24,8 @@ import os
 
 
 # Path to data dir
-_DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
-
+#_DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
+_DATA_DIR = '/ssd_scratch/cvit/madhav/train_dataset'
 # Required dataset entry keys
 _IM_DIR = 'image_directory'
 _ANN_FN = 'annotation_file'
@@ -64,13 +64,13 @@ _DATASETS = {
     },
     'coco_2014_train': {
         _IM_DIR:
-            _DATA_DIR + '/coco/coco_train2014',
+            _DATA_DIR + '/coco/train2014',
         _ANN_FN:
             _DATA_DIR + '/coco/annotations/instances_train2014.json'
     },
     'coco_2014_val': {
         _IM_DIR:
-            _DATA_DIR + '/coco/coco_val2014',
+            _DATA_DIR + '/coco/val2014',
         _ANN_FN:
             _DATA_DIR + '/coco/annotations/instances_val2014.json'
     },

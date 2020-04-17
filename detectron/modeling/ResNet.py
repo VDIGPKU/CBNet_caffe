@@ -303,6 +303,7 @@ def add_residual_block(
 
     # sum -> ReLU
     # shortcut function: by default using bn; support gn
+    #print(cfg.RESNETS.SHORTCUT_FUNC)
     add_shortcut = globals()[cfg.RESNETS.SHORTCUT_FUNC]
     sc = add_shortcut(model, prefix, blob_in, dim_in, dim_out, stride)
     if inplace_sum:
