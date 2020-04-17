@@ -22,7 +22,7 @@ from __future__ import unicode_literals
 
 import contextlib
 import logging
-import queue
+import queue as Queue
 import threading
 import traceback
 
