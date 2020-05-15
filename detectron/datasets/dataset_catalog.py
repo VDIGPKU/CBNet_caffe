@@ -24,8 +24,7 @@ import os
 
 
 # Path to data dir
-#_DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
-_DATA_DIR = '/ssd_scratch/cvit/madhav/train_dataset'
+_DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 # Required dataset entry keys
 _IM_DIR = 'image_directory'
 _ANN_FN = 'annotation_file'
