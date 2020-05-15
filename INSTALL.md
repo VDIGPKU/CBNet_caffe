@@ -60,7 +60,7 @@ git clone https://github.com/facebookresearch/detectron $DETECTRON
 Install Python dependencies:
 
 ```
-pip install -r $DETECTRON/requirements.txt
+pip3 install -r $DETECTRON/requirements.txt
 ```
 
 Set up Python modules:
@@ -72,8 +72,18 @@ cd $DETECTRON && make
 Check that Detectron tests pass (e.g. for [`SpatialNarrowAsOp test`](detectron/tests/test_spatial_narrow_as_op.py)):
 
 ```
-python2 $DETECTRON/detectron/tests/test_spatial_narrow_as_op.py
+python3 $DETECTRON/detectron/tests/test_spatial_narrow_as_op.py
 ```
+If you encounter `AssertionError: Detectron ops lib not found; make sure that your Caffe2 version includes Detectron module
+`
+
+In `$DETECTRON/detectron/utils/env.py` at line 62 
+
+Add `/path to torch/` to `prefixes`, something like this
+
+`prefixes = [_CMAKE_INSTALL_PREFIX, sys.prefix, sys.exec_prefix] + sys.path + ["/usr/local/lib/python3.6/dist-packages/torch/"]
+`
+
 
 ## That's All You Need for Inference
 
