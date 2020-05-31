@@ -59,7 +59,7 @@ def import_nccl_ops():
 def get_detectron_ops_lib():
     """Retrieve Detectron ops library."""
     # Candidate prefixes for the detectron ops lib path
-    prefixes = [_CMAKE_INSTALL_PREFIX, sys.prefix, sys.exec_prefix] + sys.path
+    prefixes = [_CMAKE_INSTALL_PREFIX, sys.prefix, sys.exec_prefix] + sys.path + ["/home/madhav3101/torch-env/lib/python3.7/site-packages/torch/"]
     # Search for detectron ops lib
     for prefix in prefixes:
         ops_path = os.path.join(prefix, 'lib/libcaffe2_detectron_ops_gpu.so')

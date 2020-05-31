@@ -28,7 +28,8 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import cPickle as pickle
+#import cPickle as pickle
+import pickle
 import cv2
 import numpy as np
 

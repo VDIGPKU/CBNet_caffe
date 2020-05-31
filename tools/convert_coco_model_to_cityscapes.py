@@ -1,3 +1,20 @@
+#!/usr/bin/env python
+
+# Copyright (c) 2017-present, Facebook, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+##############################################################################
+
 # Convert a detection model trained for COCO into a model that can be fine-tuned
 # on cityscapes
 #
@@ -9,12 +26,13 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import argparse
-import cPickle as pickle
 import numpy as np
 import os
 import sys
 
 import detectron.datasets.coco_to_cityscapes_id as cs
+from detectron.utils.io import load_object
+from detectron.utils.io import save_object
 
 NUM_CS_CLS = 9
 NUM_COCO_CLS = 81
@@ -92,8 +110,7 @@ def remove_momentum(model_dict):
 
 
 def load_and_convert_coco_model(args):
-    with open(args.coco_model_file_name, 'r') as f:
-        model_dict = pickle.load(f)
+    model_dict = load_object(args.coco_model_file_name)
     remove_momentum(model_dict)
     convert_coco_blobs_to_cityscape_blobs(model_dict)
     return model_dict
@@ -106,7 +123,6 @@ if __name__ == '__main__':
         'Weights file does not exist'
     weights = load_and_convert_coco_model(args)
 
-    with open(args.out_file_name, 'w') as f:
-        pickle.dump(weights, f, protocol=pickle.HIGHEST_PROTOCOL)
+    save_object(weights, args.out_file_name)
     print('Wrote blobs to {}:'.format(args.out_file_name))
     print(sorted(weights['blobs'].keys()))
